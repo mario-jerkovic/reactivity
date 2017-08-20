@@ -1,5 +1,4 @@
 import React from 'react'
-import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import Helmet from 'react-helmet'
 import universal from 'react-universal-component'
@@ -27,12 +26,10 @@ const App = () => (
 
     <Menu />
     <div className={style.container}>
-      <Switch>
-        <Route path="/:page" render={({ match }) => <UniversalComponent page={cap(match.params.page)} />} />
-        <Route path="/" render={() => <Redirect to="/home" />} />
-        { /* <Route path="/shell" component={Loading} exact /> */ }
-      </Switch>
+      <Route path="/:page" render={({ match }) => <UniversalComponent page={cap(match.params.page)} />} />
+      { /* <Route path="/shell" component={Loading} exact /> */ }
     </div>
+    <Route path="/" render={() => <Redirect to="/home" />} />
   </div>
 )
 

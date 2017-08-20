@@ -5,7 +5,7 @@ import style from './Menu.scss'
 const Menu = () => (
   <nav className={style.nav}>
     <NavLink
-      to="/"
+      to="/home"
       className={style.link}
       activeClassName={style.activeLink}
       exact
