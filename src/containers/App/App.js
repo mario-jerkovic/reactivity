@@ -2,15 +2,23 @@ import React from 'react'
 import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import Helmet from 'react-helmet'
+import universal from 'react-universal-component'
 import Menu from 'components/Menu/Menu'
 import Loading from 'components/Loading/Loading'
-import RedirectWithStatus from 'components/RouterStatus/RedirectWithStatus'
-import Home from '../Home'
-import Examples from '../Examples'
+import Redirect from 'react-router-dom/Redirect'
 import NotFound from '../NotFound'
 import Hero from '../Hero/Hero'
 import config from '../../config'
 import style from './App.scss'
+
+function cap(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+}
+
+const UniversalComponent = universal(props => import(`../${props.page}/${props.page}`), {
+  loading: Loading,
+  error: NotFound
+})
 
 const App = () => (
   <div>
@@ -20,11 +28,9 @@ const App = () => (
     <Menu />
     <div className={style.container}>
       <Switch>
-        <Route path="/" component={Home} exact />
-        <Route path="/examples" component={Examples} exact />
-        <RedirectWithStatus status={302} from="/home" to="/" />
-        <Route path="/shell" component={Loading} exact />
-        <Route component={NotFound} />
+        <Route path="/:page" render={({ match }) => <UniversalComponent page={cap(match.params.page)} />} />
+        <Route path="/" render={() => <Redirect to="/home" />} />
+        { /* <Route path="/shell" component={Loading} exact /> */ }
       </Switch>
     </div>
   </div>
